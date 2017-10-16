@@ -7,7 +7,7 @@ import queue
 import rospy
 import blender_api_msgs.msg as msg
 import blender_api_msgs.srv as srv
-import pau2motors.msg as paumsg
+import hr_msgs.msg as hrmsg
 import std_msgs.msg as stdmsg
 import geometry_msgs.msg as geomsg
 import logging
@@ -295,9 +295,9 @@ class CommandWrappers:
         api.setHeadRotation(msg.data)
 
     # Pau messages --------------------------------
-    @publish_live("~get_pau", paumsg.pau)
+    @publish_live("~get_pau", hrmsg.pau)
     def getPau():
-        msg = paumsg.pau()
+        msg = hrmsg.pau()
 
         head = api.getHeadData()
         msg.m_headRotation.x = head['x']
@@ -316,16 +316,20 @@ class CommandWrappers:
         msg.m_eyeGazeLeftYaw = eyes['l']['y']
         msg.m_eyeGazeRightPitch = eyes['r']['p']
         msg.m_eyeGazeRightYaw = eyes['r']['y']
-        shapekeys = api.getFaceData()
 
+        shapekeys = api.getFaceData()
         msg.m_coeffs = shapekeys.values()
+
+        angles = api.getArmsData()
+        msg.m_angles = angles.values()
+
         # Manage timeout for set_pau
         if api.pauTimeout < time.time():
             api.setAnimationMode(api.pauAnimationMode & ~api.PAU_ACTIVE)
         return msg
 
     # Set Pau messages -----------------------------
-    @subscribe("~set_pau", paumsg.pau)
+    @subscribe("~set_pau", hrmsg.pau)
     def setPau(msg):
         # Ignore if no animations are enabled by PAU
         if api.pauAnimationMode == 0:
