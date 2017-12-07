@@ -405,9 +405,9 @@ class CommandWrappers:
     def getAnimationLength(req):
         return srv.GetAnimationLengthResponse(api.getAnimationLength(req.animation))
 
-    @service("~get_animation_length", srv.GetAnimationLength)
+    @service("~get_arm_animation_length", srv.GetAnimationLength)
     def getAnimationLength(req):
-        return srv.GetAnimationLengthResponse(api.getAnimationLength(req.animation))
+        return srv.GetAnimationLengthResponse(api.getArmAnimationLength(req.animation))
 
     @publish_live("~get_current_frame", msg.CurrentFrame)
     def getCurrentFrame():
@@ -417,3 +417,30 @@ class CommandWrappers:
             _msg.name = data[0]
             _msg.frame = data[1]
         return _msg
+
+
+    # Arm animations --------------------------------------
+    @publish_once("~available_arm_animations", msg.AvailableGestures)
+    def availableArmAnimations():
+        # Using available gestures seems to be fine
+        return msg.AvailableGestures(api.availableArmAnimations())
+
+
+    @publish_live("~get_arm_animations", msg.Gestures)
+    def getArmAnimations():
+        return msg.Gestures([
+            msg.Gesture(
+                name,
+                vals['speed'],
+                vals['magnitude'],
+                rospy.Duration(vals['duration'])
+            ) for name, vals in api.getArmAnimations().items()
+        ])
+
+
+    @subscribe("~set_arm_animation", msg.SetGesture)
+    def setArmAnimation(msg):
+        try:
+            api.setArmAnimation(msg.name, msg.repeat, msg.speed, msg.magnitude)
+        except TypeError:
+            logger.error('Unknown gesture: {}'.format(msg.name))
