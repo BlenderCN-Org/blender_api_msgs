@@ -5,7 +5,7 @@
 import queue
 
 import rospy
-import blender_api_msgs.msg as msg
+import hr_msgs.msg as msg
 import blender_api_msgs.srv as srv
 import hr_msgs.msg as hrmsg
 import std_msgs.msg as stdmsg
