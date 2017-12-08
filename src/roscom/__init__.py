@@ -406,7 +406,7 @@ class CommandWrappers:
         return srv.GetAnimationLengthResponse(api.getAnimationLength(req.animation))
 
     @service("~get_arm_animation_length", srv.GetAnimationLength)
-    def getAnimationLength(req):
+    def getArmAnimationLength(req):
         return srv.GetAnimationLengthResponse(api.getArmAnimationLength(req.animation))
 
     @publish_live("~get_current_frame", msg.CurrentFrame)
