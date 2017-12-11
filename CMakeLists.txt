@@ -69,6 +69,8 @@ add_service_files(
   FILES
   SetParam.srv
   GetParam.srv
+  GetMode.srv
+  SetMode.srv
   GetAnimationLength.srv
 )
 
