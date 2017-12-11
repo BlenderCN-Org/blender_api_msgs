@@ -444,3 +444,11 @@ class CommandWrappers:
             api.setArmAnimation(msg.name, msg.repeat, msg.speed, msg.magnitude)
         except TypeError:
             logger.error('Unknown gesture: {}'.format(msg.name))
+
+    @service("~get_arms_mode", srv.GetMode)
+    def getArmsMode(req):
+        return srv.GetModeResponse(api.getArmsMode())
+
+    @service("~set_arms_mode", srv.SetMode)
+    def setArmsMode(req):
+        return srv.SetModeResponse(api.setArmsMode(req.mode))
