@@ -338,8 +338,6 @@ class CommandWrappers:
         api.pauTimeout = time.time()+api.PAU_ACTIVE_TIMEOUT
         # PAU animation is active
         api.setAnimationMode(api.pauAnimationMode | api.PAU_ACTIVE)
-
-
         # Calculate head and eyes targets
         pitch = 0
         yaw = 0
@@ -379,6 +377,11 @@ class CommandWrappers:
             # Set Face shapekeys
             shapekeys = dict(zip(msg.m_shapekeys, msg.m_coeffs))
             api.setShapeKeys(shapekeys)
+        if api.pauAnimationMode & api.PAU_ARMS:
+            # Set Arm angles
+            joints = dict(zip(msg.m_joints, msg.m_angles))
+            api.setArmsJoints(joints)
+
 
     @subscribe("~set_neck_rotation", geomsg.Vector3)
     def setNeckRotation(msg):
