@@ -223,6 +223,19 @@ class CommandWrappers:
         })
         api.setEmotionState(emotion)
 
+    # Message is a single emotion state
+    @subscribe("~set_emotion_value", msg.EmotionState)
+    def setEmotionValue(mesg):
+        if api.pauAnimationMode & (api.PAU_ACTIVE > api.PAU_FACE) == api.PAU_ACTIVE | api.PAU_FACE:
+            return
+        emotion = str({
+            mesg.name: {
+                'magnitude': mesg.magnitude,
+                'duration': mesg.duration.to_sec()
+            }
+        })
+        api.setEmotionValue(emotion)
+
 
     # Gestures --------------------------------------
     # blinking, nodding, shaking...
