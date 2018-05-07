@@ -224,6 +224,9 @@ class CommandWrappers:
         api.setEmotionState(emotion)
 
     # Message is a single emotion state
+    # In contrast to set_emotion_state, this function sets the value
+    # of a particular emotion directly and leaves it at that value.
+    # It can be used to mix and manually drive emotion states.
     @subscribe("~set_emotion_value", msg.EmotionState)
     def setEmotionValue(mesg):
         if api.pauAnimationMode & (api.PAU_ACTIVE > api.PAU_FACE) == api.PAU_ACTIVE | api.PAU_FACE:
