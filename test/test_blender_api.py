@@ -15,7 +15,7 @@ from roslaunch import core
 from testing_tools.misc import (wait_for, startxvfb, stopxvfb, capture_screen,
         run_shell_cmd, add_text_to_video, concatenate_videos,
         rosbag_msg_generator, get_rosbag_file, check_if_ffmpeg_satisfied)
-from blender_api_msgs.msg import *
+from hr_msgs.msg import *
 from genpy import Duration
 
 from roslaunch import nodeprocess
