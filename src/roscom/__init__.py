@@ -213,8 +213,8 @@ class CommandWrappers:
     # Message is a single emotion state
     @subscribe("~set_emotion_state", msg.EmotionState)
     def setEmotionState(mesg):
-        if api.pauAnimationMode & (api.PAU_ACTIVE > api.PAU_FACE) == api.PAU_ACTIVE | api.PAU_FACE:
-            return
+        # if api.pauAnimationMode & (api.PAU_ACTIVE > api.PAU_FACE) == api.PAU_ACTIVE | api.PAU_FACE:
+        #     return
         emotion = str({
             mesg.name: {
                 'magnitude': mesg.magnitude,
@@ -261,8 +261,8 @@ class CommandWrappers:
 
     @subscribe("~set_gesture", msg.SetGesture)
     def setGesture(msg):
-        if api.pauAnimationMode & api.PAU_ACTIVE > 0:
-            return
+        # if api.pauAnimationMode & api.PAU_ACTIVE > 0:
+        #     return
         try:
             api.setGesture(msg.name, msg.repeat, msg.speed, msg.magnitude)
         except TypeError:
