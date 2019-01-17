@@ -1,3 +1,4 @@
+# Copyright (c) 2013-2018 Hanson Robotics, Ltd. 
 # Implements ROS node to convert from ROS messages to the
 # blender API defined in rigAPI.py.  The actual commands
 # are transmitted to blender using the CommandListener.

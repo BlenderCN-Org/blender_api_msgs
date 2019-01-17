@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# Copyright (c) 2013-2018 Hanson Robotics, Ltd. 
 
 from setuptools import setup, find_packages
 setup(
