@@ -17,9 +17,9 @@ repo.
 The [cookbook.md]() file provides lots of examples on how to use this.
 
 ## Design goals
-* Avoids adding ROS code to the blender_api python module
+* Avoids adding ROS code to the `blender_api` python module
 * Eliminates the need for other ROS nodes from having to import
-  the blender_api python module.
+  the `blender_api` python module.
 
 ## Installation
 ```
@@ -56,6 +56,8 @@ blender -y Sophia.blend -P autostart.py
 ```
 or it can be started manually, by pressing the **Start Command
 Listener** button.
+
+Review the [cookbook.md]() for lots of example usages.
 
 ## Copyright
 
