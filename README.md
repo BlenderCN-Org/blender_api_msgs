@@ -1,7 +1,20 @@
 blender_api_msgs
 ================
+The Hanson Robotics humanoids are controlled by animations performed
+on Blender ([the 3D software animation platform](https://www.blender.org/)),
+and then converted into motor movements. The animations that should be
+played at any given moment are controlled by a ROS node.
 
-ROS interface controlling the head+body `blender_api` rig.
+This repo defines the ROS messages used to control that animation.  It 
+is distinct from the ROS node itself, (XXX FIXME, where the heck is the
+ROS node? I cannot find it anywhere! !!???!!?? ) This allows
+other ROS nodes to get access to the message defintions.
+
+This repo is also distinct from the blender rig and animations, which 
+are in the [blender_api](https://github.com/hansonrobotics/blender_api)
+repo.
+
+The [cookbook.md]() file provides lots of examples on how to use this.
 
 ## Design goals
 * Avoids adding ROS code to the blender_api python module
@@ -46,4 +59,4 @@ Listener** button.
 
 ## Copyright
 
-Copyright (c) 2014,2015,2106,2017 Hanson Robotics
+Copyright (c) 2014,2015,2106,2017 Hanson Robotics, Ltd.
