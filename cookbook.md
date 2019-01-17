@@ -1,9 +1,9 @@
-<!--Copyright (c) 2013-2018 Hanson Robotics, Ltd. --> 
-
-Cookbook
+Eva Animation ROS Node Cookbook
 ========
 A collection of recipes and HOWTO instructions for using this ROS node.
 Includes a casual demonstration of each published and subscribed topic.
+
+This ROS node controls the Hanson Robotics Eva robot head blender model.
 
 Building
 ========
@@ -49,7 +49,7 @@ blender -y Eva.blend -P autostart.py
 ```
 
 
-##Without display
+## Without display
 Without a display, there are no buttons to press. Thus, the animations
 MUST be autostarted:
 ```
@@ -60,7 +60,7 @@ Note: doesn't work yet. See issue #19
 
 ROS messages and responses
 ==========================
-##API Version
+## API Version
 In order to maintain compatibility, the node publishes a ROS version number:
 ```
 $ rostopic echo -n 1 /blender_api/get_api_version
@@ -68,7 +68,7 @@ $ rostopic echo -n 1 /blender_api/get_api_version
 which should currently return `1`.
 
 
-##Get Animation List
+## Get Animation List
 Obtain the list of supported animations.
 ```
 rostopic list
@@ -118,7 +118,7 @@ rostopic pub --once /blender_api/queue_viseme blender_api_msgs/Viseme
 '{name: A-I, rampin: 0.1, rampout: 0.8, start: [0, 0], magnitude: 1.0, duration: [0, 500000000]}'
 ```
 
-##Monitoring Emotional State
+## Monitoring Emotional State
 The current emotional state is continually published, and can be
 monitored:
 ```
@@ -221,7 +221,7 @@ will appear after a nod request:
 rostopic pub --once /blender_api/set_gesture blender_api_msgs/SetGesture '{name: nod-2, repeat: 1, speed: 0.5, magnitude: 0.2}'
 ```
 
-##Eye and Head Tracking
+## Eye and Head Tracking
 The eye gaze and the head tracking are quasi-independent. Setting the
 gaze target allows the eyes to look at that point, without turning the
 head. Setting the face target causes the eyes to look, with the face
@@ -269,3 +269,4 @@ m_eyeGazeRightYaw: -0.0995370447636
 m_coeffs: [0.023376941680908203, 0.0, 0.0, 0.08733086287975311, 0.2089768499135971, -0.002002716064453125, 0.002917647361755371, -0.002703070640563965, 0.0, 0.025170477107167244, 0.0, 0.2076178640127182, 0.00020563602447509766, 0.75, 0.0024557113647460938, 0.003466010093688965, 0.0, 0.00292360782623291, 0.0, 0.001138448715209961, -0.0004455447196960449, 0.02337382175028324, 0.0, 0.0572890043258667, 0.05713999271392822, 0.0, 0.0, 0.006374716758728027, 0.0, 0.22096529603004456, 0.047549232840538025, 0.02552708238363266, 0.0, 0.003141164779663086, 0.0, 0.08774437010288239, 0.0021129846572875977, 0.0, 0.001516193151473999, 0.04755258560180664]
 ---
 ```
+#### Copyright (c) 2014-2018 Hanson Robotics, Ltd.
