@@ -14,7 +14,7 @@ This repo is also distinct from the blender rig and animations, which
 are in the [blender_api](https://github.com/hansonrobotics/blender_api)
 repo.
 
-The [cookbook.md]() file provides lots of examples on how to use this.
+The [cookbook](cookbook.md) provides lots of examples on how to use this.
 
 ## Design goals
 * Avoids adding ROS code to the `blender_api` python module
@@ -57,7 +57,7 @@ blender -y Sophia.blend -P autostart.py
 or it can be started manually, by pressing the **Start Command
 Listener** button.
 
-Review the [cookbook.md]() for lots of example usages.
+Review the [cookbook](cookbook.md) for lots of example usages.
 
 ## Copyright
 
