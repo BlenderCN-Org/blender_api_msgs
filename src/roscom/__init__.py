@@ -6,7 +6,7 @@
 import queue
 
 import rospy
-import blender_api_msgs.msg as msg
+#import blender_api_msgs.msg as msg
 import blender_api_msgs.srv as srv
 import hr_msgs.msg as hrmsg
 import std_msgs.msg as stdmsg
@@ -152,9 +152,9 @@ class CommandWrappers:
     meant to send or receive.
     '''
 
-    @publish_once("~get_api_version", msg.GetAPIVersion)
+    @publish_once("~get_api_version", hrmsg.GetAPIVersion)
     def getAPIVersion():
-        return msg.GetAPIVersion(api.getAPIVersion())
+        return hrmsg.GetAPIVersion(api.getAPIVersion())
     # ROS interfaces to listen to blendshape topics
 
     @publish_live("~get_animation_mode", stdmsg.UInt8)
@@ -168,12 +168,12 @@ class CommandWrappers:
 
     # Somatic states  --------------------------------
     # awake, asleep, breathing, drunk, dazed and confused ...
-    @publish_once("~available_soma_states", msg.AvailableSomaStates)
+    @publish_once("~available_soma_states", hrmsg.AvailableSomaStates)
     def availableSomaStates():
-        return msg.AvailableSomaStates(api.availableSomaStates())
+        return hrmsg.AvailableSomaStates(api.availableSomaStates())
 
 
-    @subscribe("~set_soma_state", msg.SomaState)
+    @subscribe("~set_soma_state", hrmsg.SomaState)
     def setSomaState(mesg):
         if api.pauAnimationMode & api.PAU_ACTIVE:
             return
@@ -185,10 +185,10 @@ class CommandWrappers:
         }
         api.setSomaState(state)
 
-    @publish_live("~get_soma_states", msg.SomaStates)
+    @publish_live("~get_soma_states", hrmsg.SomaStates)
     def getSomaStates():
-        return msg.SomaStates([
-            msg.SomaState(name,
+        return hrmsg.SomaStates([
+            hrmsg.SomaState(name,
                 vals['magnitude'],
                 vals['rate'],
                 rospy.Duration(vals['ease_in']))
@@ -198,21 +198,21 @@ class CommandWrappers:
 
     # Emotion expressions ----------------------------
     # smiling, frowning, bored ...
-    @publish_once("~available_emotion_states", msg.AvailableEmotionStates)
+    @publish_once("~available_emotion_states", hrmsg.AvailableEmotionStates)
     def availableEmotionStates():
-        return msg.AvailableEmotionStates(api.availableEmotionStates())
+        return hrmsg.AvailableEmotionStates(api.availableEmotionStates())
 
 
-    @publish_live("~get_emotion_states", msg.EmotionStates)
+    @publish_live("~get_emotion_states", hrmsg.EmotionStates)
     def getEmotionStates():
-        return msg.EmotionStates([
+        return hrmsg.EmotionStates([
             # Emotion state has no current duration
-            msg.EmotionState(name, vals['magnitude'], 0)
+            hrmsg.EmotionState(name, vals['magnitude'], 0)
             for name, vals in api.getEmotionStates().items()
         ])
 
     # Message is a single emotion state
-    @subscribe("~set_emotion_state", msg.EmotionState)
+    @subscribe("~set_emotion_state", hrmsg.EmotionState)
     def setEmotionState(mesg):
         # if api.pauAnimationMode & (api.PAU_ACTIVE > api.PAU_FACE) == api.PAU_ACTIVE | api.PAU_FACE:
         #     return
@@ -228,7 +228,7 @@ class CommandWrappers:
     # In contrast to set_emotion_state, this function sets the value
     # of a particular emotion directly and leaves it at that value.
     # It can be used to mix and manually drive emotion states.
-    @subscribe("~set_emotion_value", msg.EmotionState)
+    @subscribe("~set_emotion_value", hrmsg.EmotionState)
     def setEmotionValue(mesg):
         if api.pauAnimationMode & (api.PAU_ACTIVE > api.PAU_FACE) == api.PAU_ACTIVE | api.PAU_FACE:
             return
@@ -243,15 +243,15 @@ class CommandWrappers:
 
     # Gestures --------------------------------------
     # blinking, nodding, shaking...
-    @publish_once("~available_gestures", msg.AvailableGestures)
+    @publish_once("~available_gestures", hrmsg.AvailableGestures)
     def availableGestures():
-        return msg.AvailableGestures(api.availableGestures())
+        return hrmsg.AvailableGestures(api.availableGestures())
 
 
-    @publish_live("~get_gestures", msg.Gestures)
+    @publish_live("~get_gestures", hrmsg.Gestures)
     def getGestures():
-        return msg.Gestures([
-            msg.Gesture(
+        return hrmsg.Gestures([
+            hrmsg.Gesture(
                 name,
                 vals['speed'],
                 vals['magnitude'],
@@ -260,7 +260,7 @@ class CommandWrappers:
         ])
 
 
-    @subscribe("~set_gesture", msg.SetGesture)
+    @subscribe("~set_gesture", hrmsg.SetGesture)
     def setGesture(msg):
         # if api.pauAnimationMode & api.PAU_ACTIVE > 0:
         #     return
@@ -271,11 +271,11 @@ class CommandWrappers:
 
 
     # Visemes --------------------------------------
-    @publish_once("~available_visemes", msg.AvailableVisemes)
+    @publish_once("~available_visemes", hrmsg.AvailableVisemes)
     def availableVisemes():
-        return msg.AvailableVisemes(api.availableVisemes())
+        return hrmsg.AvailableVisemes(api.availableVisemes())
 
-    @subscribe("~queue_viseme", msg.Viseme)
+    @subscribe("~queue_viseme", hrmsg.Viseme)
     def queueViseme(msg):
         if api.pauAnimationMode & (api.PAU_ACTIVE | api.PAU_FACE) == api.PAU_ACTIVE | api.PAU_FACE:
             return
@@ -289,7 +289,7 @@ class CommandWrappers:
 
     # Look-at and turn-to-face targets ---------------------
     # Location that Eva will look at and face.
-    @subscribe("~set_face_target", msg.Target)
+    @subscribe("~set_face_target", hrmsg.Target)
     def setFaceTarget(msg):
         if api.pauAnimationMode & (api.PAU_ACTIVE | api.PAU_HEAD_YAW) == api.PAU_ACTIVE | api.PAU_HEAD_YAW:
             return
@@ -297,7 +297,7 @@ class CommandWrappers:
         api.setFaceTarget(flist, msg.speed)
 
     # Location that Eva will look at (only).
-    @subscribe("~set_gaze_target", msg.Target)
+    @subscribe("~set_gaze_target", hrmsg.Target)
     def setGazeTarget(msg):
         if api.pauAnimationMode & (api.PAU_ACTIVE | api.PAU_EYE_TARGET) == api.PAU_ACTIVE | api.PAU_EYE_TARGET:
             return
@@ -405,11 +405,11 @@ class CommandWrappers:
         #sets only pitch and roll
         api.setNeckRotation(msg.y, msg.x)
 
-    @subscribe("~set_blink_randomly",msg.BlinkCycle)
+    @subscribe("~set_blink_randomly",hrmsg.BlinkCycle)
     def setBlinkRandomly(msg):
-        api.setBlinkRandomly(msg.mean,msg.variation)
+        api.setBlinkRandomly(msg.mean,hrmsg.variation)
 
-    @subscribe("~set_saccade",msg.SaccadeCycle)
+    @subscribe("~set_saccade",hrmsg.SaccadeCycle)
     def setSaccade(msg):
         api.setSaccade(msg.mean,msg.variation,msg.paint_scale,msg.eye_size,msg.eye_distance,msg.mouth_width,msg.mouth_height,msg.weight_eyes,msg.weight_mouth)
 
@@ -429,9 +429,9 @@ class CommandWrappers:
     def getArmAnimationLength(req):
         return srv.GetAnimationLengthResponse(api.getArmAnimationLength(req.animation))
 
-    @publish_live("~get_current_frame", msg.CurrentFrame)
+    @publish_live("~get_current_frame", hrmsg.CurrentFrame)
     def getCurrentFrame():
-        _msg = msg.CurrentFrame()
+        _msg = hrmsg.CurrentFrame()
         data = api.getCurrentFrame()
         if data is not None:
             _msg.name = data[0]
@@ -440,16 +440,16 @@ class CommandWrappers:
 
 
     # Arm animations --------------------------------------
-    @publish_once("~available_arm_animations", msg.AvailableGestures)
+    @publish_once("~available_arm_animations", hrmsg.AvailableGestures)
     def availableArmAnimations():
         # Using available gestures seems to be fine
-        return msg.AvailableGestures(api.availableArmAnimations())
+        return hrmsg.AvailableGestures(api.availableArmAnimations())
 
 
-    @publish_live("~get_arm_animations", msg.Gestures)
+    @publish_live("~get_arm_animations", hrmsg.Gestures)
     def getArmAnimations():
-        return msg.Gestures([
-            msg.Gesture(
+        return hrmsg.Gestures([
+            hrmsg.Gesture(
                 name,
                 vals['speed'],
                 vals['magnitude'],
@@ -458,7 +458,7 @@ class CommandWrappers:
         ])
 
 
-    @subscribe("~set_arm_animation", msg.SetGesture)
+    @subscribe("~set_arm_animation", hrmsg.SetGesture)
     def setArmAnimation(msg):
         try:
             api.setArmAnimation(msg.name, msg.repeat, msg.speed, msg.magnitude)

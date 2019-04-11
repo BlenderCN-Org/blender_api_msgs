@@ -42,27 +42,9 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  GetAPIVersion.msg
-  AvailableSomaStates.msg
-  AvailableEmotionStates.msg
-  AvailableGestures.msg
-  AvailableVisemes.msg
-  EmotionState.msg
-  EmotionStates.msg
-  Gesture.msg
-  Gestures.msg
-  SetGesture.msg
-  SomaState.msg
-  SomaStates.msg
-  Target.msg
-  Viseme.msg
-  Visemes.msg
-  BlinkCycle.msg
-  SaccadeCycle.msg
-  CurrentFrame.msg
-)
+# add_message_files(
+#  FILES
+# )
 
 ## Generate services in the 'srv' folder
 add_service_files(
