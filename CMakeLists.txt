@@ -5,7 +5,7 @@ project(blender_api_msgs)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  rospy std_msgs geometry_msgs message_generation
+  rospy std_msgs geometry_msgs message_generation dynamic_reconfigure
 )
 
 ## System dependencies are found with CMake's conventions
@@ -69,6 +69,11 @@ generate_messages(
   std_msgs
   geometry_msgs
   # Or other packages containing msgs
+)
+
+
+generate_dynamic_reconfigure_options(
+  cfg/AnimationMode.cfg
 )
 
 ###################################

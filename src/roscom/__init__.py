@@ -8,9 +8,13 @@ import queue
 import rospy
 #import blender_api_msgs.msg as msg
 import blender_api_msgs.srv as srv
+from blender_api_msgs.cfg import AnimationModeConfig
+
 import hr_msgs.msg as hrmsg
 import std_msgs.msg as stdmsg
 import geometry_msgs.msg as geomsg
+from dynamic_reconfigure.server import Server
+
 import logging
 import math
 from mathutils import *
@@ -136,11 +140,21 @@ class subscribe(CommandDecorator):
         if self.paused: return
         self.cmd_func(msg)
 
+
+
 class service(CommandDecorator):
     def register(self):
         self.serv = rospy.Service(self.topic, self.dataType, self._handle)
     def _handle(self, msg):
         return self.cmd_func(msg)
+
+
+class configure(CommandDecorator):
+    def register(self):
+        self.serv = Server(self.dataType, self._handle, self.topic)
+
+    def _handle(self, cfg, level):
+        return self.cmd_func(cfg, level)
 
 class CommandWrappers:
     '''
@@ -472,3 +486,21 @@ class CommandWrappers:
     @service("~set_arms_mode", srv.SetMode)
     def setArmsMode(req):
         return srv.SetModeResponse(api.setArmsMode(req.mode))
+
+    @configure("/blender_api/override_mode", AnimationModeConfig)
+    def setAnimationModeCfg(cfg, level):
+        mode = 0
+        if cfg.head:
+            mode += 3
+        if cfg.head_roll:
+            mode += 4
+        if cfg.eyes:
+            mode += 8
+        if cfg.face:
+            mode += 16
+        if cfg.arms:
+            mode += 32
+        api.setAnimationMode(mode)
+        return cfg
+
+
