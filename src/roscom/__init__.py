@@ -8,7 +8,7 @@ import queue
 import rospy
 #import blender_api_msgs.msg as msg
 import blender_api_msgs.srv as srv
-from blender_api_msgs.cfg import AnimationModeConfig
+from blender_api_msgs.cfg import AnimationModeConfig, ParallaxConfig
 
 import hr_msgs.msg as hrmsg
 import std_msgs.msg as stdmsg
@@ -503,4 +503,10 @@ class CommandWrappers:
         api.setAnimationMode(mode)
         return cfg
 
+
+    @configure("/blender_api/parallax", ParallaxConfig)
+    def setParallaxCfg(cfg, level):
+        api.parallax['eye_distance'] = cfg.eye_distance
+        api.parallax['scale'] = cfg.parallax_scale
+        return cfg
 
